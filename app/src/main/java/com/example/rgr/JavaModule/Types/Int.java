@@ -1,5 +1,7 @@
 package com.example.rgr.JavaModule.Types;
 
+import com.example.rgr.JavaModule.Types.UserType;
+
 import java.util.Comparator;
 
 public class Int implements UserType

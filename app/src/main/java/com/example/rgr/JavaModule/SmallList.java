@@ -1,5 +1,6 @@
 package com.example.rgr.JavaModule;
 
+
 import com.example.rgr.JavaModule.Types.UserType;
 
 import java.io.Serializable;

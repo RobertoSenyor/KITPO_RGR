@@ -1,19 +1,21 @@
 package com.example.rgr.JavaModule.Types;
 
-import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.Comparator;
 
 public class Dot2D implements UserType
 {
-    private Point2D point;
+    private int x;
+    private int y;
 
-    public Dot2D() {point = new Point(0,0);}
+    public Dot2D() {
+        x = 0;
+        y = 0;
+    }
 
     public Dot2D(int _axis_x, int _axis_y)
     {
-        point = new Point(0,0);
-        point.setLocation(_axis_x, _axis_y);
+        x = _axis_x;
+        y = _axis_y;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class Dot2D implements UserType
 
     @Override
     public Object read_value() {
-        return point;
+        return new Object[]{x,y};
     }
 
     @Override
@@ -41,7 +43,8 @@ public class Dot2D implements UserType
 
         String[] point2d = ss.split(";");
 
-        point.setLocation(Integer.parseInt(point2d[0]), Integer.parseInt(point2d[1]));
+        x = Integer.parseInt(point2d[0]);
+        y = Integer.parseInt(point2d[1]);
         return this;
     }
 
@@ -51,21 +54,23 @@ public class Dot2D implements UserType
     }
 
     @Override
-    public String toString() { return (int)point.getX() + ";" + (int)point.getY(); }
+    public String toString() { return x + ";" + y; }
+
+    public double getDistance(int _x, int _y)
+    {
+        return Math.abs(Math.sqrt(Math.pow((x - _x),2)-Math.pow(y - _y,2)));
+    }
 
     @Override
     public int compare(Object o1, Object o2) {
 
-        if(((Dot2D)o1).point.distance(0,0)==((Dot2D)o2).point.distance(0,0)) {
-//            System.out.println(((Dot2D) o1).point.distance(0,0) + " " + ((Dot2D) o2).point.distance(0,0));
+        if(((Dot2D)o1).getDistance(0,0)==((Dot2D)o2).getDistance(0,0)) {
             return 0;
         }
-        if(((Dot2D)o1).point.distance(0,0)>((Dot2D)o2).point.distance(0,0)) {
-//            System.out.println(((Dot2D) o1).point.distance(0,0) + " " + ((Dot2D) o2).point.distance(0,0));
+        if(((Dot2D)o1).getDistance(0,0)>((Dot2D)o2).getDistance(0,0)) {
             return 1;
         }
         else {
-//            System.out.println(((Dot2D) o1).point.distance(0,0) + " " + ((Dot2D) o2).point.distance(0,0));
             return -1;
         }
     }

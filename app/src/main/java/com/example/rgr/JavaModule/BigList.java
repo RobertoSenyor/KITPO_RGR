@@ -1,6 +1,5 @@
 package com.example.rgr.JavaModule;
 
-
 import com.example.rgr.JavaModule.Types.UserType;
 
 import java.io.*;
@@ -339,21 +338,21 @@ public class BigList implements List_action
         return buf_count;
     }
 
-    private void comp_and_swap(UserType obj, Vector arr, int _i, int _j, int _direction)
+    private void comp_and_swap(UserType obj, ArrayList arr, int _i, int _j, int _direction)
     {
         if (((obj.get_type_Comparator().compare(arr.get(_i),arr.get(_j)) == 1) && _direction == 1)
-                                                ||
-            ((obj.get_type_Comparator().compare(arr.get(_i),arr.get(_j)) == -1) && _direction == 0))
+                ||
+                ((obj.get_type_Comparator().compare(arr.get(_i),arr.get(_j)) == -1) && _direction == 0))
         {
             UserType buf_i = (UserType) arr.get(_i);
             UserType buf_j = (UserType) arr.get(_j);
 
-            arr.remove(_i); arr.insertElementAt(buf_j, _i);
-            arr.remove(_j); arr.insertElementAt(buf_i, _j);
+            arr.remove(_i); arr.add(_i,buf_j);
+            arr.remove(_j); arr.add(_j,buf_i);
         }
     }
 
-    private void bitonic_merge(Vector arr, int _low, int _count, int _direction)
+    private void bitonic_merge(ArrayList arr, int _low, int _count, int _direction)
     {
         if (_count > 1)
         {
@@ -368,7 +367,7 @@ public class BigList implements List_action
         }
     }
 
-    private void bitonic_sort(Vector arr, int _low, int _count, int _direction)
+    private void bitonic_sort(ArrayList arr, int _low, int _count, int _direction)
     {
         if (_count > 1)
         {
@@ -381,26 +380,28 @@ public class BigList implements List_action
         }
     }
 
-    public void sort_list()
+    public BigList sort_list()
     {
         String type_data = get_head().item.get_item_on_position(1).type_name();
-        Vector arr = new Vector();
-        Vector size_of_node = new Vector();
+        ArrayList arr = new ArrayList<>();
 
-        for (int i = 1; i <= count; i++)
+        for (BigListNode cur = head;; cur = cur.next)
         {
-            size_of_node.add(get_on_position(i).get_count());
-            arr.addAll(get_on_position(i).to_array());
+            arr.addAll(cur.item.to_array());
+
+            if (cur.next == null)
+                break;
         }
 
-        if(((arr.size() > 0) && ((arr.size() & (arr.size() - 1)) == 0))) // если количество элементов кратно степени 2ки
+        int to_remove_buf_elements = 0;
+        if (((arr.size() > 0) && ((arr.size() & (arr.size() - 1)) == 0))) // если количество элементов кратно степени 2ки
         {
-            bitonic_sort(arr, 0, arr.size(),1);
+            bitonic_sort(arr, 0, arr.size(), 1);
         }
         else
         {
             int buf_size = arr.size();
-            int to_remove_buf_elements = 0;
+            to_remove_buf_elements = 0;
 
             while (!((arr.size() & (arr.size() - 1)) == 0))
             {
@@ -408,32 +409,21 @@ public class BigList implements List_action
                 to_remove_buf_elements++;
             }
 
-            size_of_node.add(arr.size()-buf_size);
-
-//            System.out.println(arr);
-
             bitonic_sort(arr, 0, arr.size(), 1);
-
-            for (int i = 0; i < to_remove_buf_elements; i++)
-            {
-                arr.removeElementAt(0);
-            }
-
-            size_of_node.remove(size_of_node.size()-1);
 
             remove_list();
         }
 
-        for (int i = 0; i < size_of_node.size(); i++)
-        {
-            push(new SmallList());
+//        System.out.println(arr.toString());
 
-            for (int j = 0; j < (Integer) size_of_node.get(i); j++)
-            {
-                tail.get_value().push((UserType) arr.firstElement());
-                arr.remove(arr.firstElement());
-            }
+        push(new SmallList());
+
+        for (int i = 0 + to_remove_buf_elements; i < arr.size(); i++) {
+
+            push((UserType) arr.get(i));
         }
+
+        return this;
     }
 
     public void forEach(DoWith action)

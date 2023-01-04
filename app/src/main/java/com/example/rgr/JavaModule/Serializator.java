@@ -1,6 +1,7 @@
 package com.example.rgr.JavaModule;
 
-import Types.UserType;
+
+import com.example.rgr.JavaModule.Types.UserType;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

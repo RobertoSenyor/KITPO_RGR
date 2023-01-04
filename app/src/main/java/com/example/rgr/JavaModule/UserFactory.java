@@ -1,7 +1,7 @@
 package com.example.rgr.JavaModule;
 
-import com.example.rgr.JavaModule.Types.Dot2D;
 import com.example.rgr.JavaModule.Types.Int;
+import com.example.rgr.JavaModule.Types.Dot2D;
 import com.example.rgr.JavaModule.Types.UserType;
 
 import java.util.ArrayList;
