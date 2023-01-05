@@ -26,9 +26,7 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity {
 
     private BigList BigList = new BigList();
-    private double grade_of_two = 3; // для битонической сортировки
     private int userType = 0; // поумолчанию тип Int
-
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
